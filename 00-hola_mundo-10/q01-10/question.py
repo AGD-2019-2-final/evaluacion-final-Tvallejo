@@ -5,5 +5,6 @@
 ##  Escriba una sentencia en Python que imprima "Hola mundo!"
 ##
 ##  >>> Escriba su codigo a partir de este punto <<<
-##
+## Tomas
 print("Hola mundo!")
+
