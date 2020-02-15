@@ -11,4 +11,12 @@
 fs -rm -f -r output;
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
---
+data = LOAD 'data.tsv' USING PigStorage()
+    AS (
+        f1:CHARARRAY, 
+        f2:BAG{t: TUPLE(p:CHARARRAY)}, 
+        f3:MAP[]
+    );
+Y = FOREACH data GENERATE f1, SIZE(f2) AS f2_size, SIZE(f3) AS f3_size;
+ordered = ORDER Y BY f1, f2_size, f3_size;
+STORE ordered INTO 'output' USING PigStorage(',');

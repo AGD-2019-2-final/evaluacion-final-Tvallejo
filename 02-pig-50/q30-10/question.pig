@@ -29,15 +29,35 @@
 -- Escriba el resultado a la carpeta `output` del directorio actual.
 -- 
 fs -rm -f -r output;
---
-u = LOAD 'data.csv' USING PigStorage(',') 
-    AS (id:int, 
-        firstname:CHARARRAY, 
-        surname:CHARARRAY, 
-        birthday:CHARARRAY, 
-        color:CHARARRAY, 
-        quantity:INT);
---
--- >>> Escriba su respuesta a partir de este punto <<<
---
-
+data = LOAD 'data.csv' USING PigStorage(',')
+    AS (
+        id: INT,
+        firstname: CHARARRAY,
+        lastname: CHARARRAY,
+        birthday: CHARARRAY,
+        color: CHARARRAY,
+        quantity: INT
+    );
+Y = FOREACH data GENERATE birthday, ToDate(birthday, 'yyyy-MM-dd') AS birthday_date;
+Y = FOREACH Y GENERATE birthday,
+                ToString(birthday_date, 'dd'), 
+                ToString(birthday_date, 'd'),
+                (CASE ToString(birthday_date, 'EEE')
+                    WHEN 'Sun' THEN 'dom'
+                    WHEN 'Mon' THEN 'lun'
+                    WHEN 'Tue' THEN 'mar'
+                    WHEN 'Wed' THEN 'mie'
+                    WHEN 'Thu' THEN 'jue'
+                    WHEN 'Fri' THEN 'vie'
+                    WHEN 'Sat' THEN 'sab'
+                    ELSE '' END),
+                (CASE ToString(birthday_date, 'EEEEE')
+                    WHEN 'Sunday' THEN 'domingo'
+                    WHEN 'Monday' THEN 'lunes'
+                    WHEN 'Tuesday' THEN 'martes'
+                    WHEN 'Wednesday' THEN 'miercoles'
+                    WHEN 'Thursday' THEN 'jueves'
+                    WHEN 'Friday' THEN 'viernes'
+                    WHEN 'Saturday' THEN 'sabado'
+                    ELSE '' END);
+STORE Y INTO 'output' USING PigStorage(',');

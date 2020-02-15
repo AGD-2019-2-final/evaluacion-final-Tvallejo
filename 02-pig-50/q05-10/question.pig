@@ -10,5 +10,13 @@
 fs -rm -f -r output;
 --
 -- >>> Escriba su respuesta a partir de este punto <<<
---
-
+data = LOAD 'data.tsv' USING PigStorage()
+    AS (
+        f1:CHARARRAY, 
+        f2:BAG{t: TUPLE(p:CHARARRAY)}, 
+        f3:MAP[]
+    );
+Y = FOREACH data GENERATE FLATTEN(f2) AS letter;
+grouped = GROUP Y BY letter;
+counted = FOREACH grouped GENERATE group AS letter, COUNT(Y) AS count;
+STORE counted INTO 'output';

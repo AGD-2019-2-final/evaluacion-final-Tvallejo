@@ -4,9 +4,9 @@ import sys
 #
 if __name__ == "__main__":
     for line in sys.stdin:
-        line_split = line.split("\t")
-        keys_split = line_split[1].strip().split(",")
-        number_str = line_split[0].strip(); number_int = int(number_str)
-        number_str = ("0" + number_str) if number_int < 10 else number_str
-        for key in keys_split:
-            print("{}{}\t{}\t{}".format(key,number_str,key,str(number_int)))
+        romper_linea = line.split("\t")
+        dividir = romper_linea[1].strip().split(",")
+        numero = romper_linea[0].strip(); number_int = int(numero)
+        numero = ("0" + numero) if number_int < 10 else numero
+        for key in dividir:
+            print("{}{}\t{}\t{}".format(key,numero,key,str(number_int)))
