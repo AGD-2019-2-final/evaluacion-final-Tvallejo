@@ -5,7 +5,7 @@ import sys
 if __name__ == "__main__":
     contar = 0
     for line in sys.stdin:
-        if contar < 6:
+        if contar < 5:
             contar += 1
             line_split = line.split("\t")
             print("{}   {}   {}".format(line_split[1],line_split[2],line_split[3].strip()))
